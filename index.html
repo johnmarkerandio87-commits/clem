@@ -24,7 +24,8 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      -webkit-tap-highlight-color: rgba(216, 75, 122, 0.25);
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: rgba(216, 75, 122, 0.2);
     }
 
     body {
@@ -38,17 +39,6 @@
       min-height: 100vh;
       color: var(--ink);
       overflow-x: hidden;
-    }
-
-    @keyframes screenFadeSlide {
-      from {
-        opacity: 0;
-        transform: translateY(10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
     }
 
     .screen {
@@ -65,7 +55,6 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      animation: screenFadeSlide 0.28s ease-out both;
     }
 
     /* 1. LOCK SCREEN */
@@ -75,8 +64,10 @@
     }
 
     .keypad-card {
-      background: rgba(255, 232, 242, 0.42);
-      border: 1.5px solid rgba(255, 255, 255, 0.55);
+      background: rgba(255, 248, 251, 0.24);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1.5px solid rgba(255, 255, 255, 0.45);
       border-radius: 28px;
       padding: 24px 20px;
       width: 100%;
@@ -134,18 +125,18 @@
       font-weight: 700;
       cursor: pointer;
       box-shadow: 0 6px 14px rgba(110, 20, 52, 0.18);
-      transition: background 0.14s ease, opacity 0.14s ease;
+      transition: transform 0.12s ease, background 0.12s ease;
     }
 
     .key-btn:active {
       background: #ffe0ec;
-      opacity: 0.88;
+      transform: scale(0.93);
     }
 
     .hint-text {
       margin-top: 14px;
       font-size: 0.78rem;
-      color: rgba(255, 255, 255, 0.92);
+      color: rgba(255, 255, 255, 0.9);
     }
 
     .wrong-popup {
@@ -164,7 +155,6 @@
 
     .wrong-popup.show {
       display: flex;
-      animation: screenFadeSlide 0.2s ease-out both;
     }
 
     .retry-btn {
@@ -227,7 +217,6 @@
     }
 
     .menu-tile {
-      width: 100%;
       background: #ffffff;
       border: 2px solid var(--border-pink);
       border-radius: 20px;
@@ -238,29 +227,17 @@
       align-items: center;
       gap: 6px;
       box-shadow: 0 8px 18px rgba(216, 75, 122, 0.08);
-      transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+      transition: transform 0.18s ease, border-color 0.18s ease;
     }
 
-    .menu-tile span {
-      pointer-events: none;
-    }
-
-    .menu-tile:hover,
-    .menu-tile:focus-visible {
+    .menu-tile:hover, .menu-tile:active {
+      transform: translateY(-2px) scale(0.99);
       border-color: var(--rose-main);
       background: #fff5f9;
-      box-shadow: 0 12px 22px rgba(216, 75, 122, 0.14);
-      outline: none;
-    }
-
-    .menu-tile:active {
-      border-color: var(--rose-main);
-      background: #ffeaf2;
     }
 
     .tile-icon {
       font-size: 2.7rem;
-      line-height: 1.1;
     }
 
     .tile-label {
@@ -305,15 +282,6 @@
       font-size: 0.85rem;
       cursor: pointer;
       box-shadow: 0 6px 14px rgba(216, 75, 122, 0.25);
-      transition: background 0.18s ease, opacity 0.18s ease;
-    }
-
-    .back-btn:hover {
-      background: var(--rose-dark);
-    }
-
-    .back-btn:active {
-      opacity: 0.88;
     }
 
     .sub-heading {
@@ -334,11 +302,6 @@
       align-items: center;
       gap: 14px;
       box-shadow: 0 10px 22px rgba(216, 75, 122, 0.14);
-      transition: opacity 0.2s ease;
-    }
-
-    .song-spotlight.switching {
-      opacity: 0.5;
     }
 
     .song-badge {
@@ -404,7 +367,6 @@
       font-weight: 700;
       font-size: 0.85rem;
       cursor: pointer;
-      transition: background 0.16s ease, color 0.16s ease;
     }
 
     .song-tab-btn.active {
@@ -531,18 +493,18 @@
       </div>
 
       <div class="keypad-grid">
-        <button type="button" class="key-btn" data-digit="1">1</button>
-        <button type="button" class="key-btn" data-digit="2">2</button>
-        <button type="button" class="key-btn" data-digit="3">3</button>
-        <button type="button" class="key-btn" data-digit="4">4</button>
-        <button type="button" class="key-btn" data-digit="5">5</button>
-        <button type="button" class="key-btn" data-digit="6">6</button>
-        <button type="button" class="key-btn" data-digit="7">7</button>
-        <button type="button" class="key-btn" data-digit="8">8</button>
-        <button type="button" class="key-btn" data-digit="9">9</button>
-        <button type="button" class="key-btn" data-action="clear">⌫</button>
-        <button type="button" class="key-btn" data-digit="0">0</button>
-        <button type="button" class="key-btn" data-action="submit">✓</button>
+        <button type="button" class="key-btn" onclick="pressDigit('1')">1</button>
+        <button type="button" class="key-btn" onclick="pressDigit('2')">2</button>
+        <button type="button" class="key-btn" onclick="pressDigit('3')">3</button>
+        <button type="button" class="key-btn" onclick="pressDigit('4')">4</button>
+        <button type="button" class="key-btn" onclick="pressDigit('5')">5</button>
+        <button type="button" class="key-btn" onclick="pressDigit('6')">6</button>
+        <button type="button" class="key-btn" onclick="pressDigit('7')">7</button>
+        <button type="button" class="key-btn" onclick="pressDigit('8')">8</button>
+        <button type="button" class="key-btn" onclick="pressDigit('9')">9</button>
+        <button type="button" class="key-btn" onclick="clearDigit()">⌫</button>
+        <button type="button" class="key-btn" onclick="pressDigit('0')">0</button>
+        <button type="button" class="key-btn" onclick="submitPin()">✓</button>
       </div>
 
       <div class="hint-text">Passcode: 0816</div>
@@ -550,7 +512,7 @@
       <div class="wrong-popup" id="wrongPopup">
         <div style="font-size: 2.4rem;">🥺</div>
         <div style="font-weight: 700; margin-top: 6px;">Nope, wrong passcode!</div>
-        <button type="button" class="retry-btn" data-action="retry">Try again</button>
+        <button type="button" class="retry-btn" onclick="resetWrong()">Try again</button>
       </div>
     </div>
   </section>
@@ -565,25 +527,25 @@
 
       <div class="pink-tray">
         <div class="pink-tray-inner">
-          <button type="button" class="menu-tile" data-target="playlistScreen">
+          <button type="button" class="menu-tile" onclick="goScreen('playlistScreen')">
             <span class="tile-icon">📼</span>
             <span class="tile-label">PLAYLIST</span>
             <span class="tile-sub">Song that reminds me of you</span>
           </button>
 
-          <button type="button" class="menu-tile" data-target="loveScreen">
+          <button type="button" class="menu-tile" onclick="goScreen('loveScreen')">
             <span class="tile-icon">🌸</span>
             <span class="tile-label">FLOWERS</span>
             <span class="tile-sub">Things I love about you</span>
           </button>
 
-          <button type="button" class="menu-tile" data-target="letterScreen">
+          <button type="button" class="menu-tile" onclick="goScreen('letterScreen')">
             <span class="tile-icon">💌</span>
             <span class="tile-label">LOVE LETTER</span>
             <span class="tile-sub">A little note from my heart</span>
           </button>
 
-          <button type="button" class="menu-tile" data-target="cameraScreen">
+          <button type="button" class="menu-tile" onclick="goScreen('cameraScreen')">
             <span class="tile-icon">📷</span>
             <span class="tile-label">MEMORIES</span>
             <span class="tile-sub">Sweet moments together</span>
@@ -598,10 +560,10 @@
     <div class="sub-wrapper">
       <div class="sub-top">
         <h2 class="sub-heading">Song that reminds me of you</h2>
-        <button type="button" class="back-btn" data-target="hubScreen">← Back</button>
+        <button type="button" class="back-btn" onclick="goScreen('hubScreen')">← Back</button>
       </div>
 
-      <div class="song-spotlight" id="songSpotlight">
+      <div class="song-spotlight">
         <div class="song-badge">🎵</div>
         <div class="song-meta">
           <span class="song-tag" id="songTag">Main Song · Track 1</span>
@@ -611,10 +573,10 @@
       </div>
 
       <div class="song-switch-row">
-        <button type="button" class="song-tab-btn active" id="btnSong1" data-song="0">
+        <button type="button" class="song-tab-btn active" id="btnSong1" onclick="selectSong(0)">
           ♪ Main Song
         </button>
-        <button type="button" class="song-tab-btn" id="btnSong2" data-song="1">
+        <button type="button" class="song-tab-btn" id="btnSong2" onclick="selectSong(1)">
           ♪ Second Song
         </button>
       </div>
@@ -636,7 +598,7 @@
     <div class="sub-wrapper">
       <div class="sub-top">
         <h2 class="sub-heading">things i love about you</h2>
-        <button type="button" class="back-btn" data-target="hubScreen">← Back</button>
+        <button type="button" class="back-btn" onclick="goScreen('hubScreen')">← Back</button>
       </div>
       <div class="love-grid">
         <div class="love-note">I love the way you listen to me, even when I ramble.</div>
@@ -654,7 +616,7 @@
     <div class="sub-wrapper">
       <div class="sub-top">
         <h2 class="sub-heading">A Letter For You</h2>
-        <button type="button" class="back-btn" data-target="hubScreen">← Back</button>
+        <button type="button" class="back-btn" onclick="goScreen('hubScreen')">← Back</button>
       </div>
       <div class="letter-box">
         <div class="letter-body">There is something quiet and rare about the way you make ordinary days feel lighter, even though we are still early in getting to know each other, the warmth and comfort I feel around you already feel so natural, 😁 every conversation feels easy, and I find myself looking forward to all the little details that make you who you are. Every time we talk, time seems to move a little softer, and I catch myself smiling over the simplest things you say or do.
@@ -671,7 +633,7 @@ Whatever tomorrow brings, I am grateful to have crossed paths with you and to ha
     <div class="sub-wrapper">
       <div class="sub-top">
         <h2 class="sub-heading">Gallery</h2>
-        <button type="button" class="back-btn" data-target="hubScreen">← Back</button>
+        <button type="button" class="back-btn" onclick="goScreen('hubScreen')">← Back</button>
       </div>
       <div class="pink-board">
         <div class="polaroid">
@@ -696,4 +658,29 @@ Whatever tomorrow brings, I am grateful to have crossed paths with you and to ha
           <div class="polaroid-pic">
             <img src="./pic4.png" alt="kyutii" />
           </div>
-          <div class="polaroi
+          <div class="polaroid-cap">kyutii</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const PASSCODE = "0816";
+    let pin = "";
+
+    const playlistSongs = [
+      {
+        tag: "Main Song · Track 1",
+        title: "Paraluman",
+        subtitle: "Adie · Highlighted pick for you",
+        embedUrl: "https://www.youtube.com/embed/uxWOTxYvorE"
+      },
+      {
+        tag: "Second Song · Track 2",
+        title: "Second Song",
+        subtitle: "Track 2 · Another favorite for you",
+        embedUrl: "https://www.youtube.com/embed/51Jn7_lW58o"
+      }
+    ];
+
+    function select
