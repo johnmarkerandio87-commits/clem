@@ -24,8 +24,7 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      touch-action: manipulation;
-      -webkit-tap-highlight-color: rgba(216, 75, 122, 0.2);
+      -webkit-tap-highlight-color: rgba(216, 75, 122, 0.22);
     }
 
     body {
@@ -41,14 +40,14 @@
       overflow-x: hidden;
     }
 
-    @keyframes screenEnter {
-      0% {
+    @keyframes screenFadeSlide {
+      from {
         opacity: 0;
-        transform: translateY(14px) scale(0.985);
+        transform: translateY(10px);
       }
-      100% {
+      to {
         opacity: 1;
-        transform: translateY(0) scale(1);
+        transform: translateY(0);
       }
     }
 
@@ -66,7 +65,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      animation: screenEnter 0.34s cubic-bezier(0.22, 1, 0.36, 1) both;
+      animation: screenFadeSlide 0.28s ease-out both;
     }
 
     /* 1. LOCK SCREEN */
@@ -137,12 +136,12 @@
       font-weight: 700;
       cursor: pointer;
       box-shadow: 0 6px 14px rgba(110, 20, 52, 0.18);
-      transition: transform 0.14s ease, background 0.14s ease;
+      transition: background 0.15s ease, opacity 0.15s ease;
     }
 
     .key-btn:active {
       background: #ffe0ec;
-      transform: scale(0.92);
+      opacity: 0.88;
     }
 
     .hint-text {
@@ -167,7 +166,7 @@
 
     .wrong-popup.show {
       display: flex;
-      animation: screenEnter 0.24s ease both;
+      animation: screenFadeSlide 0.2s ease-out both;
     }
 
     .retry-btn {
@@ -179,11 +178,6 @@
       border-radius: 999px;
       font-weight: 700;
       cursor: pointer;
-      transition: transform 0.15s ease;
-    }
-
-    .retry-btn:active {
-      transform: scale(0.95);
     }
 
     /* 2. MAIN PINK KEEPSAKE HUB */
@@ -235,6 +229,7 @@
     }
 
     .menu-tile {
+      width: 100%;
       background: #ffffff;
       border: 2px solid var(--border-pink);
       border-radius: 20px;
@@ -245,29 +240,25 @@
       align-items: center;
       gap: 6px;
       box-shadow: 0 8px 18px rgba(216, 75, 122, 0.08);
-      transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+      transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
     }
 
-    .menu-tile:hover {
-      transform: translateY(-3px);
+    .menu-tile:hover,
+    .menu-tile:focus-visible {
       border-color: var(--rose-main);
       background: #fff5f9;
       box-shadow: 0 12px 22px rgba(216, 75, 122, 0.14);
+      outline: none;
     }
 
     .menu-tile:active {
-      transform: scale(0.96);
       border-color: var(--rose-main);
-      background: #fff0f6;
+      background: #ffeaf2;
     }
 
     .tile-icon {
       font-size: 2.7rem;
-      transition: transform 0.2s ease;
-    }
-
-    .menu-tile:hover .tile-icon {
-      transform: scale(1.06);
+      line-height: 1.1;
     }
 
     .tile-label {
@@ -312,16 +303,15 @@
       font-size: 0.85rem;
       cursor: pointer;
       box-shadow: 0 6px 14px rgba(216, 75, 122, 0.25);
-      transition: transform 0.18s cubic-bezier(0.22, 1, 0.36, 1), background 0.18s ease;
+      transition: background 0.18s ease, opacity 0.18s ease;
     }
 
     .back-btn:hover {
       background: var(--rose-dark);
-      transform: translateY(-1px);
     }
 
     .back-btn:active {
-      transform: scale(0.95);
+      opacity: 0.88;
     }
 
     .sub-heading {
@@ -342,12 +332,11 @@
       align-items: center;
       gap: 14px;
       box-shadow: 0 10px 22px rgba(216, 75, 122, 0.14);
-      transition: transform 0.22s ease, opacity 0.22s ease;
+      transition: opacity 0.2s ease;
     }
 
     .song-spotlight.switching {
-      opacity: 0.55;
-      transform: scale(0.98);
+      opacity: 0.5;
     }
 
     .song-badge {
@@ -413,11 +402,7 @@
       font-weight: 700;
       font-size: 0.85rem;
       cursor: pointer;
-      transition: transform 0.16s ease, background 0.16s ease, color 0.16s ease;
-    }
-
-    .song-tab-btn:active {
-      transform: scale(0.95);
+      transition: background 0.16s ease, color 0.16s ease;
     }
 
     .song-tab-btn.active {
@@ -459,11 +444,6 @@
       font-size: 0.9rem;
       line-height: 1.5;
       box-shadow: 0 8px 18px rgba(196, 56, 104, 0.2);
-      transition: transform 0.18s ease;
-    }
-
-    .love-note:hover {
-      transform: translateY(-2px);
     }
 
     /* LOVE LETTER */
@@ -509,11 +489,6 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
-    }
-
-    .polaroid:hover {
-      transform: translateY(-3px);
     }
 
     .polaroid-pic {
@@ -693,4 +668,24 @@ Whatever tomorrow brings, I am grateful to have crossed paths with you and to ha
   <section class="screen" id="cameraScreen">
     <div class="sub-wrapper">
       <div class="sub-top">
-   
+        <h2 class="sub-heading">Gallery</h2>
+        <button type="button" class="back-btn" onclick="goScreen('hubScreen')">← Back</button>
+      </div>
+      <div class="pink-board">
+        <div class="polaroid">
+          <div class="polaroid-pic">
+            <img src="./pic1.png" alt="My beautiful wifee" />
+          </div>
+          <div class="polaroid-cap">My beautiful wifee 🫶🏻❤️</div>
+        </div>
+        <div class="polaroid">
+          <div class="polaroid-pic">
+            <img src="./pic2.png" alt="Photo 2" />
+          </div>
+          <div class="polaroid-cap">😁</div>
+        </div>
+        <div class="polaroid">
+          <div class="polaroid-pic">
+            <img src="./pic3.png" alt="Photo 3" />
+          </div>
+     
