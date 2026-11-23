@@ -382,40 +382,56 @@
       color: var(--ink);
     }
 
-    /* MEMORIES BOARD */
+    /* GALLERY BOARD */
     .pink-board {
       background: linear-gradient(145deg, #ffc2d9, #f797bc);
       border: 7px solid #eb73a1;
       border-radius: 20px;
       padding: 16px;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      grid-template-columns: repeat(2, 1fr);
       gap: 14px;
+      align-items: stretch;
+    }
+
+    @media (max-width: 560px) {
+      .pink-board {
+        grid-template-columns: 1fr;
+      }
     }
 
     .polaroid {
       background: #fff;
-      padding: 8px 8px 18px;
-      border-radius: 8px;
+      padding: 8px 8px 14px;
+      border-radius: 10px;
       text-align: center;
       box-shadow: 0 8px 18px rgba(166, 44, 86, 0.18);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
     .polaroid-pic {
-      height: 95px;
-      border-radius: 6px;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      border-radius: 8px;
       background: #ffe6f0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2.2rem;
-      margin-bottom: 6px;
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+
+    .polaroid-pic img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
 
     .polaroid-cap {
       font-family: 'Caveat', cursive;
-      font-size: 1.15rem;
+      font-size: 1.2rem;
       color: var(--rose-dark);
+      line-height: 1.25;
     }
   </style>
 </head>
@@ -538,10 +554,10 @@
         <button type="button" class="back-btn" onclick="goScreen('hubScreen')">← Back</button>
       </div>
       <div class="love-grid">
-        <div class="love-note">I love the way you listen to meee.</div>
-        <div class="love-note">I love how we talkk every single dayy.</div>
+        <div class="love-note">I love the way you listen to me, even when I ramble.</div>
+        <div class="love-note">I love how supportive you are of my dreams.</div>
         <div class="love-note">I love how caring you are, even in small ways.</div>
-        <div class="love-note">I love how you make me feel loved ❤️.</div>
+        <div class="love-note">I love how you make me feel safe without even trying.</div>
         <div class="love-note">I love the memories we create together.</div>
         <div class="love-note">I love you simply because you're you.</div>
       </div>
@@ -562,29 +578,37 @@ You do not have to rush or worry about being anything other than yourself with m
     </div>
   </section>
 
-  <!-- 6. MEMORIES -->
+  <!-- 6. GALLERY -->
   <section class="screen" id="cameraScreen">
     <div class="sub-wrapper">
       <div class="sub-top">
-        <h2 class="sub-heading">Our Sweet Memories ★</h2>
+        <h2 class="sub-heading">Gallery</h2>
         <button type="button" class="back-btn" onclick="goScreen('hubScreen')">← Back</button>
       </div>
       <div class="pink-board">
         <div class="polaroid">
-          <div class="polaroid-pic">🌷</div>
-          <div class="polaroid-cap">Pink favorite</div>
+          <div class="polaroid-pic">
+            <img src="./pic1.png" alt="My beautiful wifee" />
+          </div>
+          <div class="polaroid-cap">My beautiful wifee 🫶🏻❤️</div>
         </div>
         <div class="polaroid">
-          <div class="polaroid-pic">🥰</div>
-          <div class="polaroid-cap">My safe place</div>
+          <div class="polaroid-pic">
+            <img src="./pic2.png" alt="Photo 2" />
+          </div>
+          <div class="polaroid-cap">😁</div>
         </div>
         <div class="polaroid">
-          <div class="polaroid-pic">🎀</div>
-          <div class="polaroid-cap">Sweet moments</div>
+          <div class="polaroid-pic">
+            <img src="./pic3.png" alt="Photo 3" />
+          </div>
+          <div class="polaroid-cap">🫰🏻</div>
         </div>
         <div class="polaroid">
-          <div class="polaroid-pic">💖</div>
-          <div class="polaroid-cap">Always you</div>
+          <div class="polaroid-pic">
+            <img src="./pic4.png" alt="kyutii" />
+          </div>
+          <div class="polaroid-cap">kyutii</div>
         </div>
       </div>
     </div>
@@ -658,5 +682,5 @@ You do not have to rush or worry about being anything other than yourself with m
     }
   </script>
 </body>
-  </html>
-  
+            </html>
+            
