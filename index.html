@@ -41,6 +41,17 @@
       overflow-x: hidden;
     }
 
+    @keyframes screenEnter {
+      0% {
+        opacity: 0;
+        transform: translateY(14px) scale(0.985);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
     .screen {
       display: none;
       min-height: 100vh;
@@ -55,6 +66,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      animation: screenEnter 0.34s cubic-bezier(0.22, 1, 0.36, 1) both;
     }
 
     /* 1. LOCK SCREEN */
@@ -125,12 +137,12 @@
       font-weight: 700;
       cursor: pointer;
       box-shadow: 0 6px 14px rgba(110, 20, 52, 0.18);
-      transition: transform 0.12s ease, background 0.12s ease;
+      transition: transform 0.14s ease, background 0.14s ease;
     }
 
     .key-btn:active {
       background: #ffe0ec;
-      transform: scale(0.93);
+      transform: scale(0.92);
     }
 
     .hint-text {
@@ -152,9 +164,10 @@
       z-index: 20;
       border: 2px solid #ffd1e2;
     }
-
+    
     .wrong-popup.show {
       display: flex;
+      animation: screenEnter 0.24s ease both;
     }
 
     .retry-btn {
@@ -166,6 +179,11 @@
       border-radius: 999px;
       font-weight: 700;
       cursor: pointer;
+      transition: transform 0.15s ease;
+    }
+
+    .retry-btn:active {
+      transform: scale(0.95);
     }
 
     /* 2. MAIN PINK KEEPSAKE HUB */
@@ -227,17 +245,29 @@
       align-items: center;
       gap: 6px;
       box-shadow: 0 8px 18px rgba(216, 75, 122, 0.08);
-      transition: transform 0.18s ease, border-color 0.18s ease;
+      transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
     }
 
-    .menu-tile:hover, .menu-tile:active {
-      transform: translateY(-2px) scale(0.99);
+    .menu-tile:hover {
+      transform: translateY(-3px);
       border-color: var(--rose-main);
       background: #fff5f9;
+      box-shadow: 0 12px 22px rgba(216, 75, 122, 0.14);
+    }
+
+    .menu-tile:active {
+      transform: scale(0.96);
+      border-color: var(--rose-main);
+      background: #fff0f6;
     }
 
     .tile-icon {
       font-size: 2.7rem;
+      transition: transform 0.2s ease;
+    }
+
+    .menu-tile:hover .tile-icon {
+      transform: scale(1.06);
     }
 
     .tile-label {
@@ -282,6 +312,16 @@
       font-size: 0.85rem;
       cursor: pointer;
       box-shadow: 0 6px 14px rgba(216, 75, 122, 0.25);
+      transition: transform 0.18s cubic-bezier(0.22, 1, 0.36, 1), background 0.18s ease;
+    }
+
+    .back-btn:hover {
+      background: var(--rose-dark);
+      transform: translateY(-1px);
+    }
+
+    .back-btn:active {
+      transform: scale(0.95);
     }
 
     .sub-heading {
@@ -290,20 +330,70 @@
       color: var(--rose-dark);
     }
 
-    /* PLAYLIST */
-    .vinyl {
-      width: 112px;
-      height: 112px;
-      border-radius: 50%;
-      background: radial-gradient(circle, #ffe3ee 0 18%, #d84b7a 19% 28%, #3a1926 29% 100%);
-      margin: 0 auto 10px;
-      border: 4px solid #f5b3cc;
-      box-shadow: 0 10px 20px rgba(166, 44, 86, 0.22);
-      animation: spin 6s linear infinite;
+    /* PLAYLIST HIGHLIGHT CARD */
+    .song-spotlight {
+      max-width: 480px;
+      margin: 0 auto 12px;
+      background: linear-gradient(135deg, #ffe3ee, #ffd1e3);
+      border: 2px solid #f2a8c6;
+      border-radius: 20px;
+      padding: 16px 18px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      box-shadow: 0 10px 22px rgba(216, 75, 122, 0.14);
+      transition: transform 0.22s ease, opacity 0.22s ease;
     }
 
-    @keyframes spin {
-      to { transform: rotate(360deg); }
+    .song-spotlight.switching {
+      opacity: 0.55;
+      transform: scale(0.98);
+    }
+
+    .song-badge {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      background: linear-gradient(145deg, #e85d8c, #b92d5d);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+      box-shadow: 0 6px 14px rgba(185, 45, 93, 0.28);
+    }
+
+    .song-meta {
+      text-align: left;
+      min-width: 0;
+    }
+
+    .song-tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--rose-main);
+      background: #ffffff;
+      padding: 3px 9px;
+      border-radius: 999px;
+      margin-bottom: 5px;
+    }
+
+    .song-main-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.55rem;
+      font-weight: 700;
+      color: var(--rose-dark);
+      line-height: 1.15;
+    }
+
+    .song-sub-line {
+      font-size: 0.84rem;
+      color: var(--muted);
+      margin-top: 3px;
     }
 
     .song-switch-row {
@@ -323,6 +413,11 @@
       font-weight: 700;
       font-size: 0.85rem;
       cursor: pointer;
+      transition: transform 0.16s ease, background 0.16s ease, color 0.16s ease;
+    }
+
+    .song-tab-btn:active {
+      transform: scale(0.95);
     }
 
     .song-tab-btn.active {
@@ -364,6 +459,11 @@
       font-size: 0.9rem;
       line-height: 1.5;
       box-shadow: 0 8px 18px rgba(196, 56, 104, 0.2);
+      transition: transform 0.18s ease;
+    }
+
+    .love-note:hover {
+      transform: translateY(-2px);
     }
 
     /* LOVE LETTER */
@@ -409,6 +509,11 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .polaroid:hover {
+      transform: translateY(-3px);
     }
 
     .polaroid-pic {
@@ -511,6 +616,7 @@
     </div>
   </section>
 
+  
   <!-- 3. PLAYLIST -->
   <section class="screen" id="playlistScreen">
     <div class="sub-wrapper">
@@ -519,11 +625,14 @@
         <button type="button" class="back-btn" onclick="goScreen('hubScreen')">← Back</button>
       </div>
 
-      <div class="vinyl"></div>
-
-      <p id="nowPlayingText" style="text-align:center; font-size:0.95rem; font-weight:700; color:#a62c56;">
-        Main Song (Track 1)
-      </p>
+      <div class="song-spotlight" id="songSpotlight">
+        <div class="song-badge">🎵</div>
+        <div class="song-meta">
+          <span class="song-tag" id="songTag">Main Song · Track 1</span>
+          <div class="song-main-title" id="songTitle">Paraluman</div>
+          <div class="song-sub-line" id="songSubtitle">Adie · Highlighted pick for you</div>
+        </div>
+      </div>
 
       <div class="song-switch-row">
         <button type="button" class="song-tab-btn active" id="btnSong1" onclick="selectSong(0)">
@@ -623,11 +732,15 @@ Whatever tomorrow brings, I am grateful to have crossed paths with you and to ha
 
     const playlistSongs = [
       {
-        label: "Main Song (Track 1)",
+        tag: "Main Song · Track 1",
+        title: "Paraluman",
+        subtitle: "Adie · Highlighted pick for you",
         embedUrl: "https://www.youtube.com/embed/uxWOTxYvorE"
       },
       {
-        label: "Second Song (Track 2)",
+        tag: "Second Song · Track 2",
+        title: "Second Song",
+        subtitle: "Track 2 · Another favorite for you",
         embedUrl: "https://www.youtube.com/embed/51Jn7_lW58o"
       }
     ];
@@ -636,8 +749,16 @@ Whatever tomorrow brings, I am grateful to have crossed paths with you and to ha
       const song = playlistSongs[index];
       if (!song) return;
 
-      document.getElementById("ytPlayer").src = song.embedUrl;
-      document.getElementById("nowPlayingText").textContent = song.label;
+      const spotlight = document.getElementById("songSpotlight");
+      spotlight.classList.add("switching");
+
+      setTimeout(() => {
+        document.getElementById("ytPlayer").src = song.embedUrl;
+        document.getElementById("songTag").textContent = song.tag;
+        document.getElementById("songTitle").textContent = song.title;
+        document.getElementById("songSubtitle").textContent = song.subtitle;
+        spotlight.classList.remove("switching");
+      }, 110);
 
       document.getElementById("btnSong1").classList.toggle("active", index === 0);
       document.getElementById("btnSong2").classList.toggle("active", index === 1);
@@ -650,9 +771,14 @@ Whatever tomorrow brings, I am grateful to have crossed paths with you and to ha
     }
 
     function goScreen(id) {
+      const target = document.getElementById(id);
+      if (!target) return;
+
       document.querySelectorAll(".screen").forEach((el) => el.classList.remove("active"));
-      document.getElementById(id).classList.add("active");
       window.scrollTo(0, 0);
+
+      void target.offsetWidth;
+      target.classList.add("active");
     }
 
     function submitPin() {
@@ -681,4 +807,8 @@ Whatever tomorrow brings, I am grateful to have crossed paths with you and to ha
     function resetWrong() {
       pin = "";
       renderPin();
-      document.getElementById("wrong
+      document.getElementById("wrongPopup").classList.remove("show");
+    }
+  </script>
+</body>
+</html>
