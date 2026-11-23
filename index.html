@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Digital Gift — Songs For You</title>
+  <title>Songs For You — Digital Gift</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -15,7 +15,6 @@
       --sage-dark: #63735b;
       --ink: #2c2a27;
       --muted: #6e6960;
-      --rose: #d98a9c;
       --plum-card: #241926;
       --border: #e3d9c8;
       --shadow: 0 18px 40px rgba(44, 42, 39, 0.08);
@@ -25,6 +24,7 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+      -webkit-tap-highlight-color: transparent;
     }
 
     body {
@@ -35,7 +35,7 @@
       overflow-x: hidden;
     }
 
-    /* Envelope Screen */
+    /* 1. Envelope Screen */
     .envelope-screen {
       position: fixed;
       inset: 0;
@@ -44,11 +44,11 @@
       align-items: center;
       justify-content: center;
       background: var(--bg-cream);
-      z-index: 30;
-      transition: opacity 0.6s ease, visibility 0.6s ease;
+      z-index: 40;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
     }
 
-    .envelope-screen.hidden {
+    .envelope-screen.is-done {
       opacity: 0;
       visibility: hidden;
       pointer-events: none;
@@ -59,7 +59,7 @@
       border: 2px solid #d8c7ad;
       width: 220px;
       height: 145px;
-      border-radius: 10px;
+      border-radius: 12px;
       position: relative;
       cursor: pointer;
       box-shadow: var(--shadow);
@@ -67,10 +67,11 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      overflow: hidden;
     }
 
-    .envelope-btn:hover {
-      transform: translateY(-4px) scale(1.02);
+    .envelope-btn:active {
+      transform: scale(0.97);
     }
 
     .envelope-flap {
@@ -78,11 +79,15 @@
       top: 0;
       left: 0;
       right: 0;
-      height: 75px;
-      background: #e6d6bc;
+      height: 78px;
+      background: #e3d1b4;
       clip-path: polygon(0 0, 50% 100%, 100% 0);
-      border-top-left-radius: 10px;
-      border-top-right-radius: 10px;
+      transform-origin: top center;
+      transition: transform 0.45s ease;
+    }
+
+    .envelope-btn.opening .envelope-flap {
+      transform: rotateX(180deg);
     }
 
     .envelope-flower {
@@ -92,6 +97,7 @@
       padding: 8px 14px;
       border-radius: 999px;
       border: 1px solid var(--border);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
     }
 
     .tap-label {
@@ -102,22 +108,22 @@
       color: var(--muted);
     }
 
-    /* Floral Bloom Transition Overlay */
+    /* 2. Floral Bloom Transition */
     .bloom-overlay {
       position: fixed;
       inset: 0;
-      z-index: 25;
+      z-index: 35;
       pointer-events: none;
       opacity: 0;
-      transform: scale(0.35);
-      transition: opacity 0.7s ease, transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+      transform: scale(0.4);
+      transition: opacity 0.6s ease, transform 1s cubic-bezier(0.22, 1, 0.36, 1);
       background:
-        radial-gradient(circle at 20% 25%, rgba(244, 178, 194, 0.92), transparent 42%),
-        radial-gradient(circle at 75% 20%, rgba(252, 226, 213, 0.95), transparent 45%),
-        radial-gradient(circle at 50% 55%, rgba(232, 143, 167, 0.9), transparent 50%),
-        radial-gradient(circle at 80% 78%, rgba(247, 200, 208, 0.92), transparent 45%),
-        radial-gradient(circle at 25% 80%, rgba(253, 236, 224, 0.95), transparent 45%),
-        #f8dce3;
+        radial-gradient(circle at 22% 24%, rgba(247, 182, 198, 0.95), transparent 44%),
+        radial-gradient(circle at 78% 22%, rgba(253, 224, 211, 0.95), transparent 46%),
+        radial-gradient(circle at 50% 52%, rgba(235, 145, 170, 0.92), transparent 52%),
+        radial-gradient(circle at 78% 78%, rgba(248, 198, 210, 0.95), transparent 46%),
+        radial-gradient(circle at 24% 80%, rgba(254, 236, 224, 0.95), transparent 46%),
+        #f9dfe6;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -125,51 +131,44 @@
       padding: 24px;
     }
 
-    .bloom-overlay.active {
+    .bloom-overlay.show {
       opacity: 1;
       transform: scale(1);
     }
 
     .bloom-overlay.fade-out {
       opacity: 0;
-      transition: opacity 0.9s ease;
+      transition: opacity 0.8s ease;
     }
 
-    .bloom-flowers-deco {
-      font-size: clamp(2.4rem, 7vw, 4.5rem);
-      letter-spacing: 10px;
-      line-height: 1.4;
-      text-shadow: 0 6px 24px rgba(155, 65, 92, 0.18);
+    .bloom-flowers {
+      font-size: clamp(2.2rem, 7vw, 4.2rem);
+      letter-spacing: 8px;
+      line-height: 1.45;
     }
 
     /* Floating "There's more here" button */
     .more-btn {
       position: fixed;
-      left: 20px;
-      bottom: 20px;
-      z-index: 15;
+      left: 18px;
+      bottom: 18px;
+      z-index: 20;
       background: #f6c2cf;
       color: #421d28;
       border: 1px solid #e7a3b4;
       padding: 10px 16px;
       border-radius: 999px;
       font-weight: 600;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       cursor: pointer;
-      box-shadow: 0 10px 24px rgba(66, 29, 40, 0.12);
-      transition: transform 0.2s ease, background 0.2s ease;
+      box-shadow: 0 10px 24px rgba(66, 29, 40, 0.14);
     }
 
-    .more-btn:hover {
-      transform: translateY(-2px);
-      background: #f2b1c1;
-    }
-
-    /* Main Gift Layout */
+    /* 3. Main Gift Layout */
     .gift-container {
       max-width: 1120px;
       margin: 0 auto;
-      padding: 32px 20px 80px;
+      padding: 28px 18px 84px;
       display: grid;
       grid-template-columns: 340px 1fr;
       gap: 24px;
@@ -250,13 +249,13 @@
     .bouquet-box {
       background: #18101a;
       border-radius: 18px;
-      padding: 24px 16px;
+      padding: 22px 16px;
       text-align: center;
       border: 1px solid rgba(255, 255, 255, 0.07);
     }
 
     .bouquet-art {
-      font-size: 3.4rem;
+      font-size: 3.2rem;
       line-height: 1.2;
       margin-bottom: 8px;
     }
@@ -281,14 +280,14 @@
     .video-preview-box {
       background: #120d14;
       border-radius: 14px;
-      padding: 14px;
+      padding: 12px;
       border: 1px solid rgba(255, 255, 255, 0.08);
     }
 
     .video-mock {
       background: linear-gradient(135deg, #2d2d2d, #151515);
       border-radius: 10px;
-      padding: 18px 12px;
+      padding: 16px 12px;
       text-align: center;
       color: #f3f3f3;
       margin-top: 8px;
@@ -300,7 +299,7 @@
       background: var(--paper);
       border: 1px solid var(--border);
       border-radius: 24px;
-      padding: 32px;
+      padding: 28px;
       box-shadow: var(--shadow);
     }
 
@@ -316,16 +315,15 @@
       font-family: 'Cormorant Garamond', serif;
       font-size: clamp(2rem, 4vw, 2.8rem);
       font-weight: 600;
-      margin-bottom: 24px;
+      margin-bottom: 22px;
     }
 
-    /* Cassette Visual */
     .cassette {
       background: var(--sage);
       border-radius: 20px;
-      padding: 20px;
+      padding: 18px;
       max-width: 500px;
-      margin: 0 auto 28px;
+      margin: 0 auto 26px;
       box-shadow: inset 0 2px 6px rgba(255, 255, 255, 0.35), 0 12px 24px rgba(99, 115, 91, 0.22);
       border: 2px solid #7d8e75;
     }
@@ -354,7 +352,6 @@
       align-items: center;
       justify-content: space-around;
       padding: 0 24px;
-      position: relative;
     }
 
     .reel {
@@ -386,11 +383,10 @@
       border-radius: 4px;
     }
 
-    /* Bottom Grid: Tracklist + Liner Note */
     .bottom-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 24px;
+      gap: 22px;
       align-items: start;
     }
 
@@ -492,8 +488,8 @@
 
     .toast {
       position: fixed;
-      right: 20px;
-      bottom: 20px;
+      right: 18px;
+      bottom: 18px;
       background: #2c2a27;
       color: #fff;
       padding: 12px 16px;
@@ -503,7 +499,7 @@
       transform: translateY(10px);
       transition: all 0.25s ease;
       pointer-events: none;
-      z-index: 40;
+      z-index: 50;
     }
 
     .toast.show {
@@ -514,28 +510,25 @@
 </head>
 <body>
 
-  <!-- 1. Envelope Entry -->
+  <!-- Envelope Entry -->
   <section class="envelope-screen" id="envelopeScreen">
-    <button class="envelope-btn" id="openEnvelopeBtn" aria-label="Open gift envelope">
+    <button type="button" class="envelope-btn" id="openEnvelopeBtn" aria-label="Open gift envelope">
       <div class="envelope-flap"></div>
       <span class="envelope-flower">🌸</span>
     </button>
     <p class="tap-label">Tap to open</p>
   </section>
 
-  <!-- 2. Flower Bloom Transition -->
+  <!-- Floral Bloom Overlay -->
   <div class="bloom-overlay" id="bloomOverlay" aria-hidden="true">
-    <div>
-      <div class="bloom-flowers-deco">🌷 🌸 🌺 🌹 🌼 🌷 🌸 🌺</div>
-    </div>
+    <div class="bloom-flowers">🌷 🌸 🌺 🌹 🌼 🌷 🌸 🌺</div>
   </div>
 
-  <!-- Floating Button -->
-  <button class="more-btn" id="toggleSideBtn">♡ There's more here</button>
+  <!-- Floating Keepsake Button -->
+  <button type="button" class="more-btn" id="toggleSideBtn">♡ There's more here</button>
 
-  <!-- 3. Main Gift Page -->
+  <!-- Main Gift Page -->
   <main class="gift-container">
-    <!-- Left Keepsake Drawer -->
     <aside class="side-card" id="sideCard">
       <div class="side-header">
         <h3>A letter for you</h3>
@@ -543,7 +536,7 @@
       </div>
 
       <div class="note-strip">
-        <button class="note-play-btn" id="notePlayBtn" aria-label="Play voice note">▶</button>
+        <button type="button" class="note-play-btn" id="notePlayBtn" aria-label="Play voice note">▶</button>
         <div class="waveform">
           <div class="waveform-fill" id="noteProgress"></div>
         </div>
@@ -561,20 +554,19 @@
         <div class="mini-artist" id="miniArtist">Ed Sheeran</div>
 
         <div class="video-preview-box">
-          <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: #d6c8dc;">
-            <span id="videoLabel">Track Visualizer</span>
-            <button id="toggleVideoBtn" style="background: none; border: 1px solid rgba(255,255,255,0.2); color: #fff; border-radius: 6px; padding: 2px 8px; cursor: pointer; font-size: 0.72rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; color: #d6c8dc;">
+            <span>Track Visualizer</span>
+            <button type="button" id="toggleVideoBtn" style="background: none; border: 1px solid rgba(255,255,255,0.2); color: #fff; border-radius: 6px; padding: 2px 8px; cursor: pointer; font-size: 0.72rem;">
               Toggle View
             </button>
           </div>
           <div class="video-mock" id="videoMock">
-            🎶 Now spinning on Side A · Click play on any song
+            🎶 Now spinning on Side A · Tap play on any song
           </div>
         </div>
       </div>
     </aside>
 
-    <!-- Right Cassette Sheet -->
     <section class="main-sheet">
       <div class="top-meta">For Sam · From Alex</div>
       <h1 class="main-title">Songs for you</h1>
@@ -608,154 +600,146 @@ I made you a mixtape — the cassette kind, not a CD player. Side A is us laughi
 
 Press play.
 Alex</div>
-          <button class="finish-btn" id="finishBtn">Finish Mixtape</button>
+          <button type="button" class="finish-btn" id="finishBtn">Finish Mixtape</button>
         </div>
       </div>
     </section>
   </main>
 
   <div class="toast" id="toast"></div>
-
-  <!-- Optional: Pwede kang maglagay ng sariling .mp3 files sa repo mo at i-link sa tracks array -->
   <audio id="audioPlayer"></audio>
 
   <script>
-    const tracks = [
-      {
-        id: 1,
-        num: "01",
-        title: "Perfect",
-        artist: "Ed Sheeran",
-        duration: "04:23",
-        // Lagyan ng path kung may mp3 ka sa repo, hal. "./audio/perfect.mp3"
-        src: ""
-      },
-      {
-        id: 2,
-        num: "02",
-        title: "All of Me",
-        artist: "John Legend",
-        duration: "04:29",
-        src: ""
+    (function () {
+      const tracks = [
+        { id: 1, num: "01", title: "Perfect", artist: "Ed Sheeran", duration: "04:23", src: "" },
+        { id: 2, num: "02", title: "All of Me", artist: "John Legend", duration: "04:29", src: "" }
+      ];
+
+      const envelopeScreen = document.getElementById("envelopeScreen");
+      const openEnvelopeBtn = document.getElementById("openEnvelopeBtn");
+      const bloomOverlay = document.getElementById("bloomOverlay");
+      const trackListEl = document.getElementById("trackList");
+      const statusText = document.getElementById("statusText");
+      const reelLeft = document.getElementById("reelLeft");
+      const reelRight = document.getElementById("reelRight");
+      const miniTitle = document.getElementById("miniTitle");
+      const miniArtist = document.getElementById("miniArtist");
+      const videoMock = document.getElementById("videoMock");
+      const toggleSideBtn = document.getElementById("toggleSideBtn");
+      const sideCard = document.getElementById("sideCard");
+      const toggleVideoBtn = document.getElementById("toggleVideoBtn");
+      const finishBtn = document.getElementById("finishBtn");
+      const notePlayBtn = document.getElementById("notePlayBtn");
+      const noteProgress = document.getElementById("noteProgress");
+      const audioPlayer = document.getElementById("audioPlayer");
+      const toast = document.getElementById("toast");
+
+      let currentTrackId = null;
+      let isPlaying = false;
+      let noteTimer = null;
+      let notePercent = 0;
+      let theaterMode = false;
+      let envelopeOpened = false;
+
+      function showToast(message) {
+        toast.textContent = message;
+        toast.classList.add("show");
+        setTimeout(() => toast.classList.remove("show"), 2600);
       }
-    ];
 
-    const envelopeScreen = document.getElementById("envelopeScreen");
-    const openEnvelopeBtn = document.getElementById("openEnvelopeBtn");
-    const bloomOverlay = document.getElementById("bloomOverlay");
-    const trackListEl = document.getElementById("trackList");
-    const statusText = document.getElementById("statusText");
-    const reelLeft = document.getElementById("reelLeft");
-    const reelRight = document.getElementById("reelRight");
-    const miniTitle = document.getElementById("miniTitle");
-    const miniArtist = document.getElementById("miniArtist");
-    const videoMock = document.getElementById("videoMock");
-    const toggleSideBtn = document.getElementById("toggleSideBtn");
-    const sideCard = document.getElementById("sideCard");
-    const toggleVideoBtn = document.getElementById("toggleVideoBtn");
-    const finishBtn = document.getElementById("finishBtn");
-    const notePlayBtn = document.getElementById("notePlayBtn");
-    const noteProgress = document.getElementById("noteProgress");
-    const audioPlayer = document.getElementById("audioPlayer");
-    const toast = document.getElementById("toast");
+      function openEnvelope() {
+        if (envelopeOpened) return;
+        envelopeOpened = true;
+        openEnvelopeBtn.classList.add("opening");
 
-    let currentTrackId = null;
-    let isPlaying = false;
-    let noteTimer = null;
-    let notePercent = 0;
-    let theaterMode = false;
+        setTimeout(() => {
+          envelopeScreen.classList.add("is-done");
+          bloomOverlay.classList.add("show");
+        }, 250);
 
-    function showToast(message) {
-      toast.textContent = message;
-      toast.classList.add("show");
-      setTimeout(() => toast.classList.remove("show"), 2600);
-    }
+        setTimeout(() => {
+          bloomOverlay.classList.add("fade-out");
+        }, 1450);
 
-    // Envelope -> Flower Bloom transition
-    openEnvelopeBtn.addEventListener("click", () => {
-      envelopeScreen.classList.add("hidden");
-      bloomOverlay.classList.add("active");
+        setTimeout(() => {
+          bloomOverlay.classList.remove("show", "fade-out");
+        }, 2300);
+      }
 
-      setTimeout(() => {
-        bloomOverlay.classList.add("fade-out");
-      }, 1500);
-
-      setTimeout(() => {
-        bloomOverlay.classList.remove("active", "fade-out");
-      }, 2450);
-    });
-
-    // Toggle keepsake side card
-    toggleSideBtn.addEventListener("click", () => {
-      sideCard.classList.toggle("open");
-    });
-
-    // Render tracks
-    function renderTracks() {
-      trackListEl.innerHTML = "";
-      tracks.forEach((track) => {
-        const isCurrent = currentTrackId === track.id;
-        const item = document.createElement("div");
-        item.className = `track-item ${isCurrent ? "active" : ""}`;
-        item.innerHTML = `
-          <div>
-            <div><span class="track-num">${track.num}</span><span class="track-title">${track.title}</span></div>
-            <div class="track-artist" style="margin-left: 26px;">${track.artist} · ${track.duration}</div>
-          </div>
-          <button class="play-btn" data-id="${track.id}" aria-label="Play ${track.title}">
-            ${isCurrent && isPlaying ? "❚❚" : "▶"}
-          </button>
-        `;
-        trackListEl.appendChild(item);
+      // Support click at touch tap sa envelope screen
+      openEnvelopeBtn.addEventListener("click", openEnvelope);
+      envelopeScreen.addEventListener("click", (e) => {
+        if (e.target === envelopeScreen) openEnvelope();
       });
 
-      document.querySelectorAll(".play-btn").forEach((btn) => {
-        btn.addEventListener("click", () => {
-          const id = Number(btn.dataset.id);
-          handleTrackToggle(id);
-        });
+      toggleSideBtn.addEventListener("click", () => {
+        sideCard.classList.toggle("open");
       });
-    }
 
-    function updateReels() {
-      if (isPlaying) {
-        reelLeft.classList.add("spinning");
-        reelRight.classList.add("spinning");
-      } else {
-        reelLeft.classList.remove("spinning");
-        reelRight.classList.remove("spinning");
+      function updateReels() {
+        reelLeft.classList.toggle("spinning", isPlaying);
+        reelRight.classList.toggle("spinning", isPlaying);
       }
-    }
 
-    function handleTrackToggle(id) {
-      const selected = tracks.find((t) => t.id === id);
-      if (!selected) return;
+      function handleTrackToggle(id) {
+        const selected = tracks.find((t) => t.id === id);
+        if (!selected) return;
 
-      if (currentTrackId === id && isPlaying) {
-        isPlaying = false;
-        audioPlayer.pause();
-        statusText.textContent = `Paused: ${selected.title}`;
-      } else {
-        currentTrackId = id;
-        isPlaying = true;
-        statusText.textContent = `Playing: ${selected.title} — ${selected.artist}`;
-        miniTitle.textContent = selected.title;
-        miniArtist.textContent = selected.artist;
-        videoMock.innerHTML = `🎬 <strong>${selected.title}</strong><br><span style="color:#c9b8cf;">${selected.artist} (${selected.duration})</span>`;
+        if (currentTrackId === id && isPlaying) {
+          isPlaying = false;
+          audioPlayer.pause();
+          statusText.textContent = `Paused: ${selected.title}`;
+        } else {
+          currentTrackId = id;
+          isPlaying = true;
+          statusText.textContent = `Playing: ${selected.title} — ${selected.artist}`;
+          miniTitle.textContent = selected.title;
+          miniArtist.textContent = selected.artist;
+          videoMock.innerHTML = `🎬 <strong>${selected.title}</strong><br><span style="color:#c9b8cf;">${selected.artist} (${selected.duration})</span>`;
 
-        if (selected.src) {
-          audioPlayer.src = selected.src;
-          audioPlayer.play().catch(() => {});
+          if (selected.src) {
+            audioPlayer.src = selected.src;
+            audioPlayer.play().catch(() => {});
+          }
         }
+
+        updateReels();
+        renderTracks();
       }
 
-      updateReels();
-      renderTracks();
-    }
+      function renderTracks() {
+        trackListEl.innerHTML = "";
+        tracks.forEach((track) => {
+          const isCurrent = currentTrackId === track.id;
+          const item = document.createElement("div");
+          item.className = `track-item ${isCurrent ? "active" : ""}`;
+          item.innerHTML = `
+            <div>
+              <div><span class="track-num">${track.num}</span><span class="track-title">${track.title}</span></div>
+              <div class="track-artist" style="margin-left: 26px;">${track.artist} · ${track.duration}</div>
+            </div>
+            <button type="button" class="play-btn" data-id="${track.id}" aria-label="Play ${track.title}">
+              ${isCurrent && isPlaying ? "❚❚" : "▶"}
+            </button>
+          `;
+          trackListEl.appendChild(item);
+        });
 
-    // Simple simulated voice note progress
-    notePlayBtn.addEventListener("click", () => {
-      if (noteTimer) {
-        clearInterval(noteTimer);
-        noteTimer = null;
-        notePlayBtn.textContent = "▶"
+        trackListEl.querySelectorAll(".play-btn").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            handleTrackToggle(Number(btn.dataset.id));
+          });
+        });
+      }
+
+      notePlayBtn.addEventListener("click", () => {
+        if (noteTimer) {
+          clearInterval(noteTimer);
+          noteTimer = null;
+          notePlayBtn.textContent = "▶";
+          return;
+        }
+
+        notePlayBtn.textContent = "❚❚";
+        noteTimer = 
